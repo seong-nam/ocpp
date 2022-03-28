@@ -47,6 +47,8 @@ public class ServerFirmwareManagementProfile implements Profile {
     features = new HashSet<>();
     features.add(new DiagnosticsStatusNotificationFeature(this));
     features.add(new FirmwareStatusNotificationFeature(this));
+    features.add(new UpdateFirmwareFeature(this));
+    features.add(new GetDiagnosticsFeature(this));
   }
 
   @Override
