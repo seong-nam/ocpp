@@ -58,6 +58,11 @@ public class SOAPTestServer implements IServerAPI {
   }
 
   @Override
+  public boolean isSession(UUID sessionIndex) {
+    return server.isSession(sessionIndex);
+  }
+
+  @Override
   public void open(String host, int port, ServerEvents serverEvents) {
     server.open(host, port, serverEvents);
   }

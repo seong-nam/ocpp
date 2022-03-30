@@ -28,6 +28,8 @@ package eu.chargetime.ocpp;
 import eu.chargetime.ocpp.feature.profile.Profile;
 import eu.chargetime.ocpp.model.Confirmation;
 import eu.chargetime.ocpp.model.Request;
+
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletionStage;
 
@@ -35,6 +37,8 @@ public interface IServerAPI {
   void addFeatureProfile(Profile profile);
 
   void closeSession(UUID session);
+
+  boolean isSession(UUID sessionIndex);
 
   void open(String host, int port, ServerEvents serverEvents);
 

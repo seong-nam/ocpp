@@ -175,6 +175,11 @@ public class Server {
     return Optional.of(session.getSessionId());
   }
 
+  public boolean isSession(UUID sessionIndex){
+    ISession session = sessions.get(sessionIndex);
+    return Optional.ofNullable(session).isPresent();
+  }
+
   /** Close all connections and stop listening for clients. */
   public void close() {
     listener.close();

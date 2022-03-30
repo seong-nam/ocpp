@@ -143,6 +143,11 @@ public class JSONServer implements IServerAPI {
   }
 
   @Override
+  public boolean isSession(UUID sessionIndex) {
+    return server.isSession(sessionIndex);
+  }
+
+  @Override
   public void open(String host, int port, ServerEvents serverEvents) {
     logger.info("Feature repository: {}", featureRepository);
     server.open(host, port, serverEvents);
