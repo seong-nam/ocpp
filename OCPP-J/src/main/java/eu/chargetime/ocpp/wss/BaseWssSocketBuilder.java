@@ -102,6 +102,10 @@ public class BaseWssSocketBuilder implements WssSocketBuilder {
     return this;
   }
 
+  public SSLSocketFactory getSslSocketFactory(){
+    return this.sslSocketFactory;
+  }
+
   @Override
   public Socket build() throws IOException {
     verify(true);

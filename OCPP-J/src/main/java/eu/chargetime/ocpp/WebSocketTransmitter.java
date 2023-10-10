@@ -26,6 +26,7 @@ package eu.chargetime.ocpp;
  SOFTWARE.
 */
 
+import eu.chargetime.ocpp.wss.BaseWssSocketBuilder;
 import eu.chargetime.ocpp.wss.WssSocketBuilder;
 import java.io.IOException;
 import java.net.ConnectException;
@@ -131,10 +132,8 @@ public class WebSocketTransmitter implements Transmitter {
 
       try {
         /*client.setSocket(wssSocketBuilder.uri(resource).build());*/
-        SSLSocket sslSocket = (SSLSocket) wssSocketBuilder.uri(resource).build();
-        sslSocket.setNeedClientAuth(true);
-        client.setSocket(sslSocket);
-      } catch (IOException ex) {
+        client.setSocketFactory(((BaseWssSocketBuilder)wssSocketBuilder).getSslSocketFactory());
+      } catch (Exception ex) {
         logger.error("SSL socket creation failed", ex);
       }
     }
