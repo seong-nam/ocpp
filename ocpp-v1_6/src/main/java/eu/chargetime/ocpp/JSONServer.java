@@ -116,6 +116,11 @@ public class JSONServer implements IServerAPI {
     enableWSS(builder);
   }
 
+  public void enableWSS(SSLContext sslContext, boolean isClientAuth) throws IOException {
+    WssFactoryBuilder builder = BaseWssFactoryBuilder.builder().sslContext(sslContext, isClientAuth);
+    enableWSS(builder);
+  }
+
   /**
    * Enables server to accept WSS connections. The {@code wssFactoryBuilder} must be initialized at
    * that step (as required parameters set might vary depending on implementation the {@link

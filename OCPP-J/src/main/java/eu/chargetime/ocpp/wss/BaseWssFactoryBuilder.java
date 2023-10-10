@@ -27,14 +27,18 @@ package eu.chargetime.ocpp.wss;
 
 import java.util.List;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLParameters;
+
 import org.java_websocket.WebSocketServerFactory;
 import org.java_websocket.server.DefaultSSLWebSocketServerFactory;
+import org.java_websocket.server.SSLParametersWebSocketServerFactory;
 
 /** Base implementation of WssFactoryBuilder. */
 public class BaseWssFactoryBuilder implements WssFactoryBuilder {
 
   private SSLContext sslContext;
   private List<String> ciphers;
+  private boolean isClientAuth = false;
 
   private BaseWssFactoryBuilder() {}
 
@@ -48,7 +52,12 @@ public class BaseWssFactoryBuilder implements WssFactoryBuilder {
   }
 
   public BaseWssFactoryBuilder sslContext(SSLContext sslContext) {
+    return sslContext(sslContext, false);
+  }
+
+  public BaseWssFactoryBuilder sslContext(SSLContext sslContext, boolean isClientAuth) {
     this.sslContext = sslContext;
+    this.isClientAuth = isClientAuth;
     return this;
   }
 
@@ -56,9 +65,17 @@ public class BaseWssFactoryBuilder implements WssFactoryBuilder {
   public WebSocketServerFactory build() {
     verify();
 
-    return ciphers == null
-        ? new DefaultSSLWebSocketServerFactory(sslContext)
-        : new CustomSSLWebSocketServerFactory(sslContext, ciphers);
+    if(isClientAuth){
+      SSLParameters sslParameters = new SSLParameters();
+      // This is all we need
+      sslParameters.setNeedClientAuth(true);
+
+      return new SSLParametersWebSocketServerFactory(sslContext, sslParameters);
+    } else {
+      return ciphers == null
+              ? new DefaultSSLWebSocketServerFactory(sslContext)
+              : new CustomSSLWebSocketServerFactory(sslContext, ciphers);
+    }
   }
 
   @Override
