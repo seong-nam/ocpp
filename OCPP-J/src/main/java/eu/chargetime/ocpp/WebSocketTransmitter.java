@@ -132,8 +132,6 @@ public class WebSocketTransmitter implements Transmitter {
       try {
         /*client.setSocket(wssSocketBuilder.uri(resource).build());*/
         SSLSocket sslSocket = (SSLSocket) wssSocketBuilder.uri(resource).build();
-        SSLParameters sslParameters = sslSocket.getSSLParameters();
-        sslSocket.setSSLParameters(sslParameters);
         sslSocket.setNeedClientAuth(true);
         client.setSocket(sslSocket);
       } catch (IOException ex) {
