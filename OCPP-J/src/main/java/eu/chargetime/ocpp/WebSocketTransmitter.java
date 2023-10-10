@@ -42,6 +42,10 @@ import org.java_websocket.handshake.ServerHandshake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLParameters;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
 /** Web Socket implementation of the Transmitter. */
 public class WebSocketTransmitter implements Transmitter {
   private static final Logger logger = LoggerFactory.getLogger(WebSocketTransmitter.class);
@@ -126,7 +130,11 @@ public class WebSocketTransmitter implements Transmitter {
       }
 
       try {
-        client.setSocket(wssSocketBuilder.uri(resource).build());
+        /*client.setSocket(wssSocketBuilder.uri(resource).build());*/
+        SSLSocket sslSocket = (SSLSocket) wssSocketBuilder.uri(resource).build();
+        SSLParameters sslParameters = sslSocket.getSSLParameters();
+        sslSocket.setSSLParameters(sslParameters);
+        client.setSocket(sslSocket);
       } catch (IOException ex) {
         logger.error("SSL socket creation failed", ex);
       }
