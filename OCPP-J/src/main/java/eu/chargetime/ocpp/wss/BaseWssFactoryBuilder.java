@@ -38,7 +38,7 @@ public class BaseWssFactoryBuilder implements WssFactoryBuilder {
 
   private SSLContext sslContext;
   private List<String> ciphers;
-  private boolean isClientAuth = false;
+  private boolean isWantClientAuth = false;
 
   private BaseWssFactoryBuilder() {}
 
@@ -55,9 +55,9 @@ public class BaseWssFactoryBuilder implements WssFactoryBuilder {
     return sslContext(sslContext, false);
   }
 
-  public BaseWssFactoryBuilder sslContext(SSLContext sslContext, boolean isClientAuth) {
+  public BaseWssFactoryBuilder sslContext(SSLContext sslContext, boolean isWantClientAuth) {
     this.sslContext = sslContext;
-    this.isClientAuth = isClientAuth;
+    this.isWantClientAuth = isWantClientAuth;
     return this;
   }
 
@@ -65,10 +65,10 @@ public class BaseWssFactoryBuilder implements WssFactoryBuilder {
   public WebSocketServerFactory build() {
     verify();
 
-    if(isClientAuth){
+    if(isWantClientAuth){
       SSLParameters sslParameters = new SSLParameters();
       // This is all we need
-      sslParameters.setNeedClientAuth(true);
+      sslParameters.setWantClientAuth(true);
 
       return new SSLParametersWebSocketServerFactory(sslContext, sslParameters);
     } else {
