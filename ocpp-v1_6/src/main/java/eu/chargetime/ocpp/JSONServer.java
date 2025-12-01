@@ -66,7 +66,6 @@ public class JSONServer implements IServerAPI {
 
     ArrayList<IProtocol> protocols = new ArrayList<>();
     protocols.add(new Protocol("ocpp1.6"));
-    protocols.add(new Protocol(""));
     draftOcppOnly = new Draft_6455(Collections.emptyList(), protocols);
 
     this.listener = new WebSocketListener(sessionFactory, configuration, draftOcppOnly);
