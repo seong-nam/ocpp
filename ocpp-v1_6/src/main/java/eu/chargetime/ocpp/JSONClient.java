@@ -1,5 +1,6 @@
 package eu.chargetime.ocpp;
 
+import eu.chargetime.ocpp.factory.InsecureSSLSocketFactory;
 import eu.chargetime.ocpp.feature.profile.ClientCoreProfile;
 import eu.chargetime.ocpp.feature.profile.Profile;
 import eu.chargetime.ocpp.model.Confirmation;
@@ -123,9 +124,14 @@ public class JSONClient implements IClientAPI {
 
   // To ensure the exposed API is backward compatible
   public void enableWSS(SSLContext sslContext) throws IOException {
-    WssSocketBuilder wssSocketBuilder =
-        BaseWssSocketBuilder.builder().sslSocketFactory(sslContext.getSocketFactory());
-    enableWSS(wssSocketBuilder);
+      WssSocketBuilder wssSocketBuilder =
+              null;
+      try {
+          wssSocketBuilder = BaseWssSocketBuilder.builder().sslSocketFactory(new InsecureSSLSocketFactory());
+      } catch (Exception e) {
+          throw new RuntimeException(e);
+      }
+      enableWSS(wssSocketBuilder);
   }
 
   /**
