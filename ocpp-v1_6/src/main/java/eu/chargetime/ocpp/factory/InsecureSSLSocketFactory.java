@@ -1,6 +1,7 @@
 package eu.chargetime.ocpp.factory;
 
 import javax.net.ssl.*;
+import java.io.IOException;
 import java.net.Socket;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
@@ -40,12 +41,20 @@ public class InsecureSSLSocketFactory extends SSLSocketFactory {
 
     @Override
     public Socket createSocket(Socket s, String host, int port, boolean autoClose) throws java.io.IOException {
-        return configure(delegate.createSocket(s, host, port, autoClose));
+        SSLSocket ssl = (SSLSocket) configure(delegate.createSocket(s, host, port, autoClose));
+        SSLParameters params = ssl.getSSLParameters();
+        params.setEndpointIdentificationAlgorithm(null); // CN/SAN 검증 끄기
+        ssl.setSSLParameters(params);
+        return ssl;
     }
 
     @Override
     public Socket createSocket(String host, int port) throws java.io.IOException {
-        return configure(delegate.createSocket(host, port));
+        SSLSocket ssl = (SSLSocket) configure(delegate.createSocket(host, port));
+        SSLParameters params = ssl.getSSLParameters();
+        params.setEndpointIdentificationAlgorithm(null); // CN/SAN 검증 끄기
+        ssl.setSSLParameters(params);
+        return ssl;
     }
 
     @Override
