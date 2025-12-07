@@ -40,21 +40,24 @@ public class InsecureSSLSocketFactory extends SSLSocketFactory {
     }
 
     @Override
-    public Socket createSocket(Socket s, String host, int port, boolean autoClose) throws java.io.IOException {
-        SSLSocket ssl = (SSLSocket) configure(delegate.createSocket(s, host, port, autoClose));
+    public Socket createSocket() throws IOException {
+        // 기본 소켓 생성 후 CN/SAN 검증 끄기
+        SSLSocket ssl = (SSLSocket) this.delegate.createSocket();
         SSLParameters params = ssl.getSSLParameters();
-        params.setEndpointIdentificationAlgorithm(null); // CN/SAN 검증 끄기
+        params.setEndpointIdentificationAlgorithm(null);
         ssl.setSSLParameters(params);
         return ssl;
     }
 
+
+    @Override
+    public Socket createSocket(Socket s, String host, int port, boolean autoClose) throws java.io.IOException {
+        return configure(delegate.createSocket(s, host, port, autoClose));
+    }
+
     @Override
     public Socket createSocket(String host, int port) throws java.io.IOException {
-        SSLSocket ssl = (SSLSocket) configure(delegate.createSocket(host, port));
-        SSLParameters params = ssl.getSSLParameters();
-        params.setEndpointIdentificationAlgorithm(null); // CN/SAN 검증 끄기
-        ssl.setSSLParameters(params);
-        return ssl;
+        return configure(delegate.createSocket(host, port));
     }
 
     @Override
