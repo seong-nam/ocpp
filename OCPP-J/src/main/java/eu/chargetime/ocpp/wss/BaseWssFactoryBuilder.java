@@ -65,17 +65,17 @@ public class BaseWssFactoryBuilder implements WssFactoryBuilder {
   public WebSocketServerFactory build() {
     verify();
 
-    if(isWantClientAuth){
+    /*if(isWantClientAuth){
       SSLParameters sslParameters = new SSLParameters();
       // This is all we need
       sslParameters.setWantClientAuth(true);
 
       return new SSLParametersWebSocketServerFactory(sslContext, sslParameters);
-    } else {
+    } else {*/
       return ciphers == null
               ? new DefaultSSLWebSocketServerFactory(sslContext)
               : new CustomSSLWebSocketServerFactory(sslContext, ciphers);
-    }
+    /*}*/
   }
 
   @Override
