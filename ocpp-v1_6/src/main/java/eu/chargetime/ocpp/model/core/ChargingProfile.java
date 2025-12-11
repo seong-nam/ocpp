@@ -120,8 +120,6 @@ public class ChargingProfile implements Validatable {
     boolean valid = chargingProfileId != null;
     valid &= (stackLevel != null && stackLevel >= 0);
     valid &= chargingProfilePurpose != null;
-    valid &=
-        (transactionId == null || chargingProfilePurpose == ChargingProfilePurposeType.TxProfile);
     valid &= chargingProfileKind != null;
     valid &= (chargingSchedule != null && chargingSchedule.validate());
     return valid;
