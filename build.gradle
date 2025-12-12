@@ -7,6 +7,7 @@ buildscript {
     maven {
       url "https://plugins.gradle.org/m2/"
     }
+      maven { url 'https://jitpack.io' }
   }
   dependencies {
     /*classpath "gradle.plugin.com.github.sherter.google-java-format:google-java-format-gradle-plugin:0.8"*/
@@ -28,6 +29,7 @@ subprojects {
         maven {
             url = 'https://repo.maven.apache.org/maven2'
         }
+        maven { url 'https://jitpack.io' }
     }
 
     sourceCompatibility = '1.8'
