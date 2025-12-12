@@ -183,6 +183,7 @@ public class WebSocketListener implements Listener {
                 reason,
                 remote);
 
+
             WebSocketReceiver receiver = sockets.get(webSocket);
             if (receiver != null) {
               receiver.disconnect();

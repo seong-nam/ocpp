@@ -5,7 +5,7 @@
 dependencies {
     compile project(':common')
     compile project(':OCPP-J')
-    compile 'org.java-websocket:Java-WebSocket:1.6.0'
+    implementation 'com.github.seong-nam:Java-WebSocket:v0.1'
     compile group: 'javax.xml.soap', name: 'javax.xml.soap-api', version: '1.4.0'
     
     testCompile 'junit:junit:4.12'
